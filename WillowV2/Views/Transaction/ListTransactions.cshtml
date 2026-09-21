@@ -1,0 +1,121 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Transactions";
+}
+@model List<WillowV2.Models.FinTransaction>
+<h1 class="hero-title" style="font-size: 2rem;">Transactions</h1>
+
+<form method="get" asp-action="ListTransactions" class="d-flex flex-wrap gap-3 align-items-end mb-4 p-3 rounded" style="background: rgba(116,198,157,0.08); border: 1px solid rgba(116,198,157,0.2); width: fit-content">
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">Type</label>
+        <select name="type">
+            <option value="">All</option>
+            <option value="0" selected ="@(ViewBag.SelectedType == WillowV2.Models.Enums.TransactionType.Income)">Income</option>
+            <option value="1" selected ="@(ViewBag.SelectedType == WillowV2.Models.Enums.TransactionType.Expense)">Expense</option>
+        </select>
+    </div>
+
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">Category</label>
+        <select name="category">
+        @foreach(var category in (List<WillowV2.Models.FinCategory>)ViewBag.Categories){
+             <option value="@category.Id" data-type="@((int)category.Type)">@category.Name</option>
+        }
+        </select>
+    </div>
+
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">From</label>
+        <input type="date" name="startDate" value="@(ViewBag.StartDate != null ? ((DateTime)ViewBag.StartDate).ToString("yyyy-MM-dd") : "")" />
+    </div>
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">To</label>
+        <input type="date" name="endDate" value="@(ViewBag.EndDate != null ? ((DateTime)ViewBag.EndDate).ToString("yyyy-MM-dd") : "")" />
+    </div>
+    <button type="submit" class="btn btn-success btn-sm px-3">Apply</button>
+    <a asp-action="ListTransactions" class="btn btn-outline-secondary btn-sm px-3">Clear</a>
+</form>
+
+    <table class="table">
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Notes</th>
+            </tr>
+        </thead>
+
+    <tbody>
+    @foreach(var transaction in Model)
+    {
+        <tr>
+            <td>@transaction.Name</td>
+            <td>@transaction.Date.ToString("MMM dd, yyyy")</td>
+            <td>@transaction.Amount</td>
+            <td>@transaction.Category?.Name</td>
+            <td>@transaction.Category?.Type</td>
+            <td>@transaction.Notes</td>
+                <td style="background: transparent !important; border: none;">
+                    <a class="btn btn-primary" asp-controller="Transaction" asp-action="Edit" asp-route-id="@transaction.Id">Edit</a>
+                </td>
+        </tr>
+    }
+</tbody>
+</table>
+
+<script>
+    function filterCategories(resetValue) {
+        const selectedType = document.querySelector('[name="type"]').value;
+        const categorySelect = document.querySelector('[name="category"]');
+        const options = categorySelect.querySelectorAll('option');
+
+        options.forEach(option => {
+            if (option.value === '') return;
+            const categoryType = option.dataset.type;
+            option.style.display = (selectedType === '' || categoryType === selectedType) ? '' : 'none';
+        });
+
+        if (resetValue) {
+            categorySelect.value = '';
+        } else {
+            // check if currently selected option is now hidden
+            const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+            if (selectedOption && selectedOption.style.display === 'none') {
+                categorySelect.value = ''; // reset if selected option is hidden
+            }
+        }
+    }
+
+    filterCategories(false);
+
+    document.querySelector('[name="type"]').addEventListener('change', function() {
+        filterCategories(true);
+    });
+
+</script>
+<style>
+    .form-select, .form-control {
+        background-color: #0d2818;
+        border: 1px solid rgba(116, 198, 157, 0.3);
+        color: #74c69d;
+    }
+
+        .form-select:focus, .form-control:focus {
+            background-color: #0d2818;
+            border-color: #74c69d;
+            color: #74c69d;
+            box-shadow: 0 0 0 0.25rem rgba(116, 198, 157, 0.15);
+        }
+
+        .form-select option {
+            background-color: #0d2818;
+            color: #74c69d;
+        }
+</style>

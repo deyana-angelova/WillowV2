@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<WillowV2.Models.Goal>
+<h1 class="hero-title" style="font-size: 2rem;">Goals</h1>
+<form method="get" asp-action="ListGoals" class="d-flex flex-wrap gap-3 align-items-end mb-4 p-3 rounded" style="background: rgba(116,198,157,0.08); border: 1px solid rgba(116,198,157,0.2); width: fit-content">
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">Needed Amount(from)</label>
+        <input type="number" name="neededFrom" min="0" step="1.00" value="@(ViewBag.SelectedNeededAmountFrom != null ? ((float)ViewBag.SelectedNeededAmountFrom).ToString() : "")" />
+    </div> <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">Needed Amount(to)</label>
+        <input type="number" name="neededTo" min="0" step="1.00" value="@(ViewBag.SelectedNeededAmountTo != null ? ((float)ViewBag.SelectedNeededAmountTo).ToString() : "")" />
+    </div>
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">Deadline(from)</label>
+        <input type="date" name="deadlineStart" value="@(ViewBag.SelectedDeadlineFrom != null ? ((DateTime)ViewBag.SelectedDeadlineFrom).ToString("yyyy-MM-dd") : "")" />
+    </div>
+    <div class="d-flex flex-column gap-1">
+        <label class="text-white small text-uppercase fw-bold">Deadline(to)</label>
+        <input type="date" name="deadlineEnd" value="@(ViewBag.SelectedDeadlineTo != null ? ((DateTime)ViewBag.SelectedDeadlineTo).ToString("yyyy-MM-dd") : "")" />
+    </div>
+    <button type="submit" class="btn btn-success btn-sm px-3">Apply</button>
+    <a asp-action="ListGoals" class="btn btn-outline-secondary btn-sm px-3">Clear</a>
+</form>
+    <table class="table">
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Amount to reach</th>
+            <th>Current amount</th>
+            <th>Current date</th>
+            <th>Deadline</th>
+            <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var goal in Model)
+        {
+            <tr>
+                <td>@goal.Name</td>
+                <td>@goal.AmountToReach</td>
+                <td>@goal.CurrentAmount</td>
+                <td>@goal.CurrentDate</td>
+                <td>@goal.Deadline</td>
+                <td>@goal.Notes</td>
+                <td style="background: transparent !important; border: none;">
+                    <a class="btn btn-primary" asp-controller="Goal" asp-action="Edit" asp-route-id="@goal.Id">Edit</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+<style>
+    .form-select, .form-control {
+        background-color: #0d2818;
+        border: 1px solid rgba(116, 198, 157, 0.3);
+        color: #74c69d;
+    }
+
+        .form-select:focus, .form-control:focus {
+            background-color: #0d2818;
+            border-color: #74c69d;
+            color: #74c69d;
+            box-shadow: 0 0 0 0.25rem rgba(116, 198, 157, 0.15);
+        }
+
+        .form-select option {
+            background-color: #0d2818;
+            color: #74c69d;
+        }
+</style>

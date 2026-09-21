@@ -1,0 +1,52 @@
+﻿@model WillowV2.Models.RecurringTransaction
+
+@{
+    ViewData["Title"] = "Edit Recurring Transaction";
+}
+
+<div class="dashboard-container p-4">
+    <div class="card p-4" style="max-width: 500px;">
+        <h1 class="hero-title mb-4" style="font-size: 1.75rem;">Edit Recurring Transaction</h1>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="LastProcessed" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label" style="color:#74c69d;"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Amount" class="form-label" style="color:#74c69d;"></label>
+                <input asp-for="Amount" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="DayOfMonth" class="form-label" style="color:#74c69d;"></label>
+                <input asp-for="DayOfMonth" class="form-control" type="number" min="1" max="28" />
+                <span asp-validation-for="DayOfMonth" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="form-label" style="color:#74c69d;">Category</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name", Model.CategoryId))">
+                    <option value="">-- Select a category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn" style="background:#74c69d; color:#05150d; font-weight:600;">Save</button>
+            <a asp-action="Index" class="btn btn-link" style="color:#74c69d;">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

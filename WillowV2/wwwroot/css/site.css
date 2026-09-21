@@ -1,0 +1,204 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+.custom-navbar {
+    background: #1f4d35;
+    border-bottom: 1px solid #74c69d !important;
+}
+title {
+    color: #1f4d35;
+}
+h1 {
+    color: #74c69d;
+}
+.table > tbody > tr > td {
+    background-color: #e8f5ef !important;
+    color: #222 !important;
+}
+.table > thead > tr > th {
+    background-color: #74c69d !important;
+    color: white !important;
+}
+.table > tbody > tr > td:first-child {
+    border-radius: 12px 0 0 12px;
+}
+
+.table > tbody > tr > td:nth-last-child(2) {
+    border-radius: 0 12px 12px 0 !important;
+}
+
+.table > tbody > tr > td:last-child {
+    border-radius: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+.table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+    .table > thead > tr > th:first-child {
+        border-radius: 12px 0 0 12px !important;
+    }
+
+    .table > thead > tr > th:last-child {
+        border-radius: 0 12px 12px 0 !important;
+    }
+
+.hero-title {
+    color: #74c69d; /* light green */
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(116, 198, 157, 0.25);
+}
+
+.card {
+    background: rgba(45, 106, 79, 0.3);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(116, 198, 157, 0.2);
+}
+
+.dashboard-container .text-muted {
+    color: #74c69d !important;
+    font-weight: 700;
+}
+
+body {
+    background: radial-gradient(circle at top right, rgba(46, 125, 50, 0.25), transparent 40%), linear-gradient(135deg, #071f14, #05150d);
+}
+
+.dashboard-container {
+    position: relative;
+    min-height: 700px;
+}
+
+.willow-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.2; 
+}
+
+.dashboard-container > *:not(.willow-bg) {
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-container {
+    position: relative;
+    overflow: visible;
+}
+
+.willow-bg {
+    position: absolute;
+    right: -120px;
+    top: -20px;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(350px, -10px);
+}
+
+/* make sure your content sits on top of the tree */
+.dashboard-container > *:not(.willow-bg) {
+    position: relative;
+    z-index: 1;
+}
+.modal-content {
+    background-color: #1a3d2b;
+    color: #74c69d;
+    border: 1px solid rgba(116, 198, 157, 0.2);
+}
+
+/* for mobile */
+
+@media (max-width: 768px) {
+    .willow-bg {
+        width: 250px;
+        height: 400px;
+        right: -20px;
+        top: 0;
+    }
+
+    .dashboard-container {
+        min-height: auto;
+    }
+}
+
+
+@keyframes coinDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes coinbob {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+.coin {
+    animation: coinDrop 0.4s ease forwards;
+    opacity: 0;
+}
+
+.top-coin {
+    animation: coinDrop 0.4s ease forwards, coinbob 2s ease-in-out 0.4s infinite;
+    opacity: 0;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #74c69d !important;
+    color: #05150d !important;
+}
+
+.nav-pills .nav-link {
+    color: #74c69d;
+}
+
+    .nav-pills .nav-link:hover {
+        background-color: rgba(116, 198, 157, 0.15);
+    }

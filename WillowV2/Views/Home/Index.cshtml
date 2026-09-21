@@ -1,0 +1,928 @@
+﻿@using WillowV2.Models.ViewModels
+@model AddTransactionViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="hero-title">Hello, @ViewBag.DisplayName</h1>
+</div>
+<div class="dash-header">
+    <span class="dash-date-day">@DateTime.Now.ToString("dd")</span>
+    <span class="dash-date-month">@DateTime.Now.ToString("MMMM")</span>
+    <span class="dash-date-month">@DateTime.Now.ToString("yyyy")</span>
+    <div style="flex:1"></div>
+    <span class="dash-time">@DateTime.Now.ToString("HH:mm")</span>
+    <div class="dash-date-dot"></div>
+</div>
+<div class="dashboard-container">
+
+    <!-- Willow tree background -->
+    <svg class="willow-bg" width="420" height="700" viewBox="0 0 420 700" fill="none" role="presentation">
+        <path d="M300 680 Q296 600 292 510 Q288 410 295 300 Q298 220 300 140" stroke="#4ade80" stroke-width="12" stroke-linecap="round" />
+        <path d="M297 520 Q265 490 248 450 Q235 415 232 375" stroke="#4ade80" stroke-width="6" stroke-linecap="round" />
+        <path d="M296 440 Q328 408 342 370 Q352 338 348 298" stroke="#4ade80" stroke-width="5" stroke-linecap="round" />
+        <g class="canopy">
+            <ellipse cx="300" cy="175" rx="145" ry="105" fill="#1a4a2e" opacity="0.9" />
+            <ellipse cx="210" cy="205" rx="100" ry="78" fill="#1f5c38" opacity="0.85" />
+            <ellipse cx="388" cy="198" rx="105" ry="80" fill="#1f5c38" opacity="0.85" />
+            <ellipse cx="300" cy="135" rx="118" ry="78" fill="#25703f" opacity="0.8" />
+            <ellipse cx="185" cy="170" rx="82" ry="62" fill="#2d8a4e" opacity="0.75" />
+            <ellipse cx="415" cy="175" rx="78" ry="60" fill="#2d8a4e" opacity="0.75" />
+            <ellipse cx="300" cy="105" rx="92" ry="62" fill="#35a05c" opacity="0.7" />
+            <ellipse cx="300" cy="78" rx="65" ry="44" fill="#45c070" opacity="0.6" />
+            <g class="td1"><path d="M155 235 Q135 285 130 350 Q126 400 132 455" stroke="#1a4a2e" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="132" cy="457" rx="5" ry="9" fill="#1a4a2e" opacity="0.8" transform="rotate(-10 132 457)" /></g>
+            <g class="td2"><path d="M190 252 Q172 302 170 368 Q168 415 174 462" stroke="#1f5c38" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="174" cy="464" rx="5" ry="9" fill="#1f5c38" opacity="0.8" transform="rotate(6 174 464)" /></g>
+            <g class="td3"><path d="M232 265 Q218 315 216 380 Q214 428 220 472" stroke="#25703f" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="220" cy="474" rx="5" ry="9" fill="#25703f" opacity="0.8" transform="rotate(-4 220 474)" /></g>
+            <g class="td4"><path d="M272 272 Q260 322 260 388 Q260 436 265 478" stroke="#2d8a4e" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="265" cy="480" rx="5" ry="9" fill="#2d8a4e" opacity="0.8" /></g>
+            <g class="td5"><path d="M310 274 Q302 324 303 390 Q304 438 308 480" stroke="#1a4a2e" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="308" cy="482" rx="5" ry="9" fill="#1a4a2e" opacity="0.8" transform="rotate(3 308 482)" /></g>
+            <g class="td6"><path d="M348 268 Q345 318 347 384 Q349 432 352 474" stroke="#1f5c38" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="352" cy="476" rx="5" ry="9" fill="#1f5c38" opacity="0.8" transform="rotate(-5 352 476)" /></g>
+            <g class="td7"><path d="M382 255 Q382 305 386 370 Q390 418 388 460" stroke="#25703f" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="388" cy="462" rx="5" ry="9" fill="#25703f" opacity="0.8" transform="rotate(7 388 462)" /></g>
+            <g class="td8"><path d="M410 240 Q414 288 418 352 Q422 400 418 442" stroke="#1a4a2e" stroke-width="2.5" fill="none" stroke-linecap="round" /><ellipse cx="418" cy="444" rx="5" ry="9" fill="#1a4a2e" opacity="0.8" transform="rotate(-8 418 444)" /></g>
+        </g>
+    </svg>
+
+    <!-- your actual dashboard content goes here -->
+    @*First Row*@
+    <div class="d-none d-md-flex gap-3 mt-4">
+        @*Current Balance Card*@
+        <div class="card p-3" style="min-width: 200px;">
+            <span class="text-muted small text-uppercase">Current Balance</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-success fs-4">↑</span>
+                <span class="text-success fw-bold fs-5">@(((decimal)(ViewBag.CurrentBalance ?? 0)).ToString("C"))</span>
+            </div>
+        </div>
+        @*Total Income Card*@
+        @*Total Income Card*@
+        <div class="card p-3 stock-card stock-up" style="min-width: 200px;">
+            <svg class="stock-bg" viewBox="0 0 200 100" preserveAspectRatio="none">
+                <polyline points="0,90 30,70 60,75 90,50 120,55 150,25 200,10"
+                          fill="none" stroke="#22c55e" stroke-width="3" />
+                <polygon points="0,90 30,70 60,75 90,50 120,55 150,25 200,10 200,100 0,100"
+                         fill="url(#upGradient)" />
+                <defs>
+                    <linearGradient id="upGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#22c55e" stop-opacity="0.25" />
+                        <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span class="text-muted small text-uppercase">Total Income</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-success fs-4">↑</span>
+                <span class="text-success fw-bold fs-5">@(((decimal)(ViewBag.Totalncome ?? 0)).ToString("C"))</span>
+            </div>
+            <button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addEarningsModal">
+                + Add earnings
+            </button>
+        </div>
+        @*Total Expense Card*@
+        <div class="card p-3 stock-card stock-down" style="min-width: 200px;">
+            <svg class="stock-bg" viewBox="0 0 200 100" preserveAspectRatio="none">
+                <polyline points="0,10 30,30 60,25 90,50 120,45 150,75 200,90"
+                          fill="none" stroke="#f87171" stroke-width="3" />
+                <polygon points="0,10 30,30 60,25 90,50 120,45 150,75 200,90 200,100 0,100"
+                         fill="url(#downGradient)" />
+                <defs>
+                    <linearGradient id="downGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#f87171" stop-opacity="0.25" />
+                        <stop offset="100%" stop-color="#f87171" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span class="text-muted small text-uppercase">Total Expenses</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-danger fs-4">↓</span>
+                <span class="fw-bold fs-5" style="color:#f87171;">@(((decimal)(ViewBag.TotalExpenses ?? 0)).ToString("C"))</span>
+            </div>
+            <button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                + Add an expense
+            </button>
+        </div>
+
+        @*Savings Card*@
+        @{
+            decimal savings = (decimal)(ViewBag.Savings ?? 0);
+            decimal balance = (decimal)(ViewBag.CurrentBalance ?? 0);
+            int fillPercent = balance > 0 ? (int)Math.Min((savings / balance) * 100, 100) : 0;
+            int maxCoins = 10; // 100% full = 10 coins
+            int coinCount = (int)Math.Round(fillPercent / 10.0);
+            int jarHeight = 80; // usable height inside jar in SVG units
+            int coinSpacing = 13;
+        }
+        <div class="card p-3" style="min-width: 200px;">
+            <span class="text-muted small text-uppercase">Savings Jar</span>
+            <div class="d-flex align-items-center gap-3 mt-2">
+                <svg width="70" height="100" viewBox="0 0 110 150" fill="none" role="presentation">
+                    <defs>
+                        <clipPath id="jar-clip-main">
+                            <path d="M20 44 Q16 46 14 54 L12 118 Q12 128 22 130 L88 130 Q98 128 98 118 L96 54 Q94 46 90 44Z" />
+                        </clipPath>
+                    </defs>
+                    <rect x="32" y="20" width="46" height="24" rx="6" fill="none" stroke="#74c69d" stroke-width="1.2" />
+                    <path d="M20 44 Q16 46 14 54 L12 118 Q12 128 22 130 L88 130 Q98 128 98 118 L96 54 Q94 46 90 44Z"
+                          fill="rgba(116,198,157,0.06)" stroke="#74c69d" stroke-width="1.5" />
+                    <g clip-path="url(#jar-clip-main)">
+                        @for (int i = 0; i < coinCount; i++)
+                        {
+                            int delay = (coinCount - i) * 200;
+                            int yPos = 126 - (i * coinSpacing);
+                            bool isTop = i == coinCount - 1;
+                            <g class="@(isTop ? "coin top-coin" : "coin")" style="animation-delay: @(delay)ms">
+                                <ellipse cx="55" cy="@(yPos + 6)" rx="32" ry="6" fill="#92400e" />
+                                <ellipse cx="55" cy="@(yPos + 2)" rx="32" ry="6" fill="#f59e0b" />
+                                <ellipse cx="55" cy="@yPos" rx="32" ry="6" fill="#fbbf24" />
+                            </g>
+                        }
+                    </g>
+                    <path d="M20 44 Q16 46 14 54 L12 118 Q12 128 22 130 L88 130 Q98 128 98 118 L96 54 Q94 46 90 44Z"
+                          fill="none" stroke="#74c69d" stroke-width="1.5" />
+                </svg>
+                <div>
+                    <div class="fw-bold fs-5" style="color:#f59e0b;">@savings.ToString("C")</div>
+                    <small class="text-white-50">@fillPercent% of balance</small>
+                </div>
+            </div>
+            <div class="d-flex gap-2 mt-2">
+                <button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addToSavingsModal">
+                    +
+                </button>
+                <button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#withdrawSavingsModal" style="background:#f87171;">
+                    −
+                </button>
+            </div>
+        </div>
+    </div>
+    @*Second Row*@
+    <div class="d-flex gap-3 mt-4">
+        @*Goal Panel*@
+        <div class="card p-3" style="width: 22rem; align-self: flex-start;">
+            <!--edges to the panel-->
+            <div class="card-body p-0">
+                <!--padding inside-->
+                <span class="text-muted small text-uppercase">Goals</span>
+            </div>
+            <div class="goals-scroll" style="max-height: 300px; overflow-y: auto; padding: 12px;">
+                @if (ViewBag.Goals != null && ((List<WillowV2.Models.Goal>)ViewBag.Goals).Count > 0)
+                {
+                    var predictions = (Dictionary<Guid, WillowV2.Models.GoalPrediction>)ViewBag.Predictions;
+
+                    foreach (var goal in (List<WillowV2.Models.Goal>)ViewBag.Goals)
+                    {
+                        <button type="button" class="btn btn-sm btn-outline-success mt-2"
+                                data-bs-toggle="modal" data-bs-target="#updateGoalModal"
+                                onclick="document.getElementById('updateGoalId').value = '@goal.Id'">
+                            Add funds
+                        </button>
+                          
+                        var percent = goal.AmountToReach > 0 ? (int)((goal.CurrentAmount / goal.AmountToReach) * 100) : 0;
+                        var prediction = predictions[goal.Id];
+
+                        <div class="mb-3 pb-3 border-bottom border-secondary">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-bold text-white">@goal.Name</span>
+                                <span class="text-success fw-bold">@percent%</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: @percent%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <small class="text-white-50">Total: @goal.AmountToReach.ToString("C")</small>
+                                <small class="text-white-50">Due @goal.Deadline.ToString("dd MMM yyyy")</small>
+                            </div>
+
+                            @* Prediction section *@
+                            <div class="mt-2 p-2 rounded" style="background: rgba(116,198,157,0.08);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="fw-bold" style="color: @(prediction.OnTrack ? "#74c69d" : "#f87171")">
+                                        @prediction.Status
+                                    </small>
+                                    <small class="text-white-50">@prediction.Confidence confidence</small>
+                                </div>
+                                @if (prediction.PredictionDate.HasValue)
+                                {
+                                    <small class="text-white-50">Est. completion: @prediction.PredictionDate.Value.ToString("MMM yyyy")</small>
+                                }
+                                <div class="d-block">
+                                    <small class="text-white-50">Need: @prediction.RequiredDailyRate.ToString("C")/day</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                } else
+                {
+                    <span class="fw-bold text-white">No goals to display yet</span>
+                }
+            </div>
+            <button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+                + Add Goal
+            </button>
+        </div>
+ 
+
+
+<div class="card p-3" style="width: 31rem;">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+         <span class="text-muted small text-uppercase">Stats</span>
+
+        <select id="chartSelector" class="form-select" style="width: 240px;">
+            <option value="expenses">Expenses by Category</option>
+            <option value="income">Income by Category</option>
+            <option value="monthly">Expenses by Month</option>
+        </select>
+    </div>
+
+    <div class="card-body">
+        <div style="height: 300px;">
+            <canvas id="dashboardChart"></canvas>
+        </div>
+    </div>
+
+</div>
+</div>   </div>
+@* mobile cards - hidden on desktop, visible on phone *@
+<div class="d-md-none row g-2 mt-3">
+    <div class="col-6">
+        <div class="card p-3 h-100">
+            <span class="text-muted small text-uppercase">Current Balance</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-success">↑</span>
+                <span class="text-success fw-bold">@(((decimal)(ViewBag.CurrentBalance ?? 0)).ToString("C"))</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card p-3 h-100">
+            <span class="text-muted small text-uppercase">Total Income</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-success">↑</span>
+                <span class="text-success fw-bold">@(((decimal)(ViewBag.TotalIncome ?? 0)).ToString("C"))</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card p-3 h-100">
+            <span class="text-muted small text-uppercase">Total Expenses</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-danger">↓</span>
+                <span class="text-danger fw-bold">@(((decimal)(ViewBag.TotalExpenses ?? 0)).ToString("C"))</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card p-3 h-100">
+            <span class="text-muted small text-uppercase">Savings Jar</span>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="text-success">↑</span>
+                <span class="text-success fw-bold">@(((decimal)(ViewBag.Savings ?? 0)).ToString("C"))</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Add goal form *@
+<div class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGoalLabel">Add Goal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addGoalForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">Name*</label>
+                        <input type="text" class="form-control" name="Name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Start Date*</label>
+                        <input type="date" class="form-control" name="StartDate" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Deadline*</label>
+                        <input type="date" class="form-control" name="Deadline" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount to reach*</label>
+                        <input type="number" step="0.01" class="form-control" name="AmountToReach" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Current Amount*</label>
+                        <input type="number" step="0.01" class="form-control" name="CurrentAmount" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" name="Notes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitGoal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Add income form *@
+<div class="modal fade" id="addEarningsModal" tabindex="-1" aria-labelledby="addEarningsModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEarningsModal">Add earnings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addEarningsForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <input type="hidden" name="Type" value="0" /> <!-- 0 = Income -->
+                        <label class="form-label">Name*</label>
+                        <input type="text" class="form-control" name="Name" required />
+                        <label class="form-label">Category*</label>
+                        @if (ViewBag.Categories != null)
+                        {
+                            <select class="form-select" name="CategoryId">
+                                <option value="">Select category</option>
+                                @foreach (var category in (List<WillowV2.Models.FinCategory>)ViewBag.Categories)
+                                {
+                                    if (category.Type == WillowV2.Models.Enums.TransactionType.Income)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-select" name="CategoryId">
+                                <option value="">No categories found</option>
+                            </select>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" step="0.01" class="form-control" name="Amount" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date*</label>
+                        <input type="date" class="form-control" name="Date" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" name="Notes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitEarnings">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Add expense form *@
+<div class="modal fade" id="addExpenseModal" tabindex="-1" aria-labelledby="addExpenseModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExpenseModal">Add expenses</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addExpenseForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <input type="hidden" name="Type" value="1" /> <!-- 1 = Expense -->
+                        <label class="form-label">Name*</label>
+                        <input type="text" class="form-control" name="Name" required />
+                    </div>
+                    <label class="form-label">Category*</label>
+                    @if (ViewBag.Categories != null)
+                    {
+                        <select class="form-select" name="CategoryId">
+                            <option value="">Select category</option>
+                            @foreach (var category in (List<WillowV2.Models.FinCategory>)ViewBag.Categories)
+                            {
+                                if (category.Type == WillowV2.Models.Enums.TransactionType.Expense)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select class="form-select" name="CategoryId">
+                            <option value="">No categories found</option>
+                        </select>
+                    }
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" step="0.01" class="form-control" name="Amount" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date*</label>
+                        <input type="date" class="form-control" name="Date" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" name="Notes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitExpense">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Add savings form *@
+<div class="modal fade" id="addToSavingsModal" tabindex="-1" aria-labelledby="addToSavings" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToSavings">Add to savings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addToSavingsForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" step="0.01" class="form-control" name="AmountToAdd" required />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitSavings">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* Withdraw from savings form *@
+<div class="modal fade" id="withdrawSavingsModal" tabindex="-1" aria-labelledby="withdrawSavings" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="withdrawSavings">Withdraw savings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="withdrawSavingsForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" step="0.01" class="form-control" name="AmountToRemove" required />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitWithdrawSavings">Withdraw</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* Update goal's current amount form *@
+<div class="modal fade" id="updateGoalModal" tabindex="-1" aria-labelledby="updateGoal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateGoal">Update goal's current amount</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateGoalForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="goalId" id="updateGoalId"/>
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" step="0.01" class="form-control" name="amount" id="updateGoalAmount" required />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitAddToGoal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* Scan receipt (phone only) *@
+<div class="d-block d-md-none mt-3">
+    <button class="btn btn-success w-100" id="scanReceiptBtn">
+        📷 Scan Receipt
+    </button>
+    <input type="file" id="receiptImage" accept="image/*" capture="environment" style="display:none" />
+</div>
+<div class="modal fade" id="receiptReviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Review Receipt Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="scanStatus" class="text-center text-muted mb-3" style="display:none">
+                    <div class="spinner-border spinner-border-sm me-2"></div>
+                    Reading receipt ...
+                </div>
+                <div id="receiptItems"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="saveReceiptItems">Save All</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('scanReceiptBtn').addEventListener('click', function() {
+        document.getElementById('receiptImage').click();
+        });
+        //add goal
+    const goalSaveBtn = document.getElementById('submitGoal');
+
+    goalSaveBtn.addEventListener('click', async function(){
+        const formGoal = document.getElementById('addGoalForm');
+        const formData = new FormData(formGoal);
+
+        const response = await fetch ('/Goal/Add', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value
+            }
+        });
+
+            if (response.ok) {
+            bootstrap.Modal.getInstance(document.getElementById('addGoalModal')).hide();
+            location.reload();
+        } else {
+            const errorText = await response.text();
+            alert(errorText);
+        }
+    });
+    //add income
+    const addEarningBtn = document.getElementById('submitEarnings');
+
+    addEarningBtn.addEventListener('click', async function(){
+    const formEarnings = document.getElementById('addEarningsForm');
+    const formDataEarning = new FormData(formEarnings);
+
+    const response = await fetch('/Transaction/Add', {
+        method: 'POST',
+        body: formDataEarning,
+        headers: {
+                'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value
+         }
+        });
+     if (response.ok) {
+            bootstrap.Modal.getInstance(document.getElementById('addEarningsModal')).hide();
+            location.reload();
+        } else {
+            const errorText = await response.text();
+            alert(errorText);
+        }
+           });
+           //add expense
+           const addExpenseBtn = document.getElementById('submitExpense');
+
+           addExpenseBtn.addEventListener('click', async function(){
+               const formExpenses = document.getElementById('addExpenseForm');
+               const formDataExpenses = new FormData(formExpenses);
+
+               const response = await fetch('/Transaction/Add',{
+                   method: 'POST',
+                   body: formDataExpenses,
+                   headers: {
+                        'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value
+                   }
+               });
+                 if (response.ok) {
+            bootstrap.Modal.getInstance(document.getElementById('addExpenseModal')).hide();
+            location.reload();
+        } else {
+            const errorText = await response.text();
+            alert(errorText);
+        }
+           });
+
+           //add to savings
+           const addSavingsBtn = document.getElementById('submitSavings');
+
+           addSavingsBtn.addEventListener('click', async function(){
+               const formSavings = document.getElementById('addToSavingsForm');
+               const formDataSavings = new FormData(formSavings);
+
+               const response = await fetch('/Savings/Add', {
+                   method: 'POST',
+                   body: formDataSavings,
+                   headers:  {
+                        'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value
+                   }
+               });
+           if (response.ok) {
+               bootstrap.Modal.getInstance(document.getElementById('addToSavingsModal')).hide();
+               location.reload();
+           } else {
+               const errorText = await response.text();
+               alert(errorText);
+           }
+           });
+               //withdraw savings
+    const withdrawSavingsBtn = document.getElementById('submitWithdrawSavings');
+
+    withdrawSavingsBtn.addEventListener('click', async function(){
+        const formWithdraw = document.getElementById('withdrawSavingsForm');
+        const formDataWithdraw = new FormData(formWithdraw);
+
+        const response = await fetch('/Savings/Withdraw', {
+            method: 'POST',
+            body: formDataWithdraw,
+            headers: {
+                'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value
+            }
+        });
+        if (response.ok) {
+            bootstrap.Modal.getInstance(document.getElementById('withdrawSavingsModal')).hide();
+            location.reload();
+        } else {
+            const errorText = await response.text();
+            alert(errorText);
+        }
+    });
+           //update goal funds
+           document.getElementById('submitAddToGoal').addEventListener('click', async function () {
+               const goalId = document.getElementById('updateGoalId').value;
+               const amount = document.getElementById('updateGoalAmount').value;
+               const token = document.querySelector('#updateGoalForm input[name="__RequestVerificationToken"]').value;
+
+              const formData = new URLSearchParams();
+              formData.append('goalId', goalId);
+              formData.append('amount', amount);
+
+            const response = await fetch('/Goal/AddToGoal', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': token
+           },
+            body: formData.toString()
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to update goal.');
+            }
+           });
+</script>
+
+<script>
+
+    const expenseCategories =
+        @Html.Raw(Json.Serialize(ViewBag.ExpenseCategories));
+
+    const expenseAmounts =
+        @Html.Raw(Json.Serialize(ViewBag.ExpenseAmounts));
+
+    const incomeCategories =
+        @Html.Raw(Json.Serialize(ViewBag.IncomeCategories));
+
+    const incomeAmounts =
+        @Html.Raw(Json.Serialize(ViewBag.IncomeAmounts));
+
+    const expenseMonths =
+        @Html.Raw(Json.Serialize(ViewBag.ExpenseMonths));
+
+    const expenseMonthAmounts =
+        @Html.Raw(Json.Serialize(ViewBag.ExpenseMonthAmounts));
+
+
+    let dashboardChart;
+
+    function createChart(type) {
+
+        if (dashboardChart) {
+            dashboardChart.destroy();
+        }
+
+        let labels;
+        let amounts;
+        let chartType;
+
+        if (type === "expenses") {
+            labels = expenseCategories;
+            amounts = expenseAmounts;
+            chartType = "pie";
+        }
+
+        else if (type === "income") {
+            labels = incomeCategories;
+            amounts = incomeAmounts;
+            chartType = "pie";
+        }
+
+        else if (type === "monthly") {
+            labels = expenseMonths;
+            amounts = expenseMonthAmounts;
+            chartType = "bar";
+        }
+
+        dashboardChart = new Chart(
+            document.getElementById("dashboardChart"),
+            {
+                type: chartType,
+
+                data: {
+                    labels: labels,
+
+                    datasets: [{
+                        label: "Amount",
+                        data: amounts
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "white"
+                            }
+                        }
+                    },
+
+                    scales: chartType === "bar" ? {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: "white"
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: "white"
+                            }
+                        }
+                    } : {}
+                }
+            }
+        );
+    }
+
+
+    // Initial chart
+    createChart("expenses");
+
+
+    // Dropdown
+    document.getElementById("chartSelector")
+        .addEventListener("change", function () {
+
+            createChart(this.value);
+
+        });
+
+</script>
+<style>
+    /* show date header */
+    .dash-header {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding-bottom: 16px;
+        border-bottom: 0.5px solid rgba(255,255,255,0.08);
+        margin-bottom: 20px;
+        color: #74c69d;
+        font-size: 24px;
+    }
+
+    @@keyframes sway {
+        0%, 100% {
+            transform: rotate(-2deg);
+        }
+
+        50% {
+            transform: rotate(2deg);
+        }
+    }
+
+    @@keyframes d1 {
+        0%, 100% {
+            transform: rotate(-4deg);
+        }
+
+        50% {
+            transform: rotate(3deg);
+        }
+    }
+
+    @@keyframes d2 {
+        0%, 100% {
+            transform: rotate(-3deg);
+        }
+
+        50% {
+            transform: rotate(4deg);
+        }
+    }
+
+    @@keyframes d3 {
+        0%, 100% {
+            transform: rotate(-5deg);
+        }
+
+        50% {
+            transform: rotate(2deg);
+        }
+    }
+
+    .canopy {
+        animation: sway 6s ease-in-out infinite;
+        transform-origin: 300px 80px;
+    }
+
+    .td1 {
+        animation: d1 4.2s ease-in-out infinite;
+        transform-origin: 50% 0%;
+    }
+
+    .td2 {
+        animation: d2 5.1s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.3s;
+    }
+
+    .td3 {
+        animation: d3 3.8s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.6s;
+    }
+
+    .td4 {
+        animation: d1 4.7s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.9s;
+    }
+
+    .td5 {
+        animation: d2 5.5s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.2s;
+    }
+
+    .td6 {
+        animation: d3 4.0s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.5s;
+    }
+
+    .td7 {
+        animation: d1 5.2s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.8s;
+    }
+
+    .td8 {
+        animation: d2 3.9s ease-in-out infinite;
+        transform-origin: 50% 0%;
+        animation-delay: 0.4s;
+    }
+
+    .add-btn {
+        background: #74c69d;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+        .add-btn:hover {
+            background: #52b788;
+            transform: translateY(-2px);
+        }
+
+    .goals-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #74c69d transparent;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+</style>

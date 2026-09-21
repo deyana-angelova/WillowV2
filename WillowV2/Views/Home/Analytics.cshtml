@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Analytics";
+}
+<h1 class="hero-title" style="font-size: 2rem;">Analytics</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="d-flex gap-3">
+<div class="card shadow-sm" style="max-width: 300px;">
+    <div class="card-header text-white">
+        <h5 class="mb-0" >Expenses by Category</h5>
+    </div> <div class="card-body"> <canvas id="expenseChart"></canvas> 
+            </div> 
+</div>
+<div class="card shadow-sm" style="max-width: 300px;">
+    <div class="card-header text-white">
+        <h5 class="mb-0">Income by Category</h5>
+    </div> <div class="card-body">
+        <canvas id="incomeChart"></canvas>
+    </div>
+</div>
+    <div class="card shadow-sm" style="width: 600px;">
+        <div class="card-header text-white">
+            <h5 class="mb-0">Expenses by Month</h5>
+        </div>
+
+        <div class="card-body">
+            <div style="height: 300px;">
+                <canvas id="monthlyExpensesChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const expenseCategories = @Html.Raw(Json.Serialize(ViewBag.ExpenseCategories));
+    const expenseAmounts = @Html.Raw(Json.Serialize(ViewBag.ExpenseAmounts));
+
+    const ctx = document.getElementById('expenseChart');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: expenseCategories,
+            datasets: [{
+                label: 'Expenses',
+                data: expenseAmounts
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        color: 'white'
+                    }
+                }
+               
+            }
+        }
+    });
+</script>
+
+<script>
+    const incomeCategories =
+        @Html.Raw(Json.Serialize(ViewBag.IncomeCategories));
+
+    const incomeAmounts =
+        @Html.Raw(Json.Serialize(ViewBag.IncomeAmounts));
+
+    const incomeCtx =
+        document.getElementById('incomeChart');
+
+    new Chart(incomeCtx, {
+        type: 'pie',
+
+        data: {
+            labels: incomeCategories,
+
+            datasets: [{
+                label: 'Income',
+                data: incomeAmounts
+            }]
+        },
+
+        options: {
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        color: 'white'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    const monthlyLabels = @Html.Raw(Json.Serialize(ViewBag.ExpenseMonths));
+    const monthlyAmounts = @Html.Raw(Json.Serialize(ViewBag.ExpenseMonthAmounts));
+
+    new Chart(document.getElementById('monthlyExpensesChart'), {
+        type: 'bar',
+
+        data: {
+            labels: monthlyLabels,
+
+            datasets: [{
+                label: 'Expenses',
+                data: monthlyAmounts
+            }]
+        },
+
+        options: {
+            responsive: true,
+
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
+                }
+            }
+        }
+    });
+</script>

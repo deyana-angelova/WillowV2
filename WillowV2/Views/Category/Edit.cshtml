@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WillowV2.Models.FinCategory
+
+@{
+    ViewData["Title"] = "Edit a Category";
+}
+
+<div class="dashboard-container p-4">
+    <div class="card p-4" style="max-width: 500px;">
+        <h1 class="hero-title mb-4" style="font-size: 1.75rem;">Edit a Category</h1>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label" style="color:#74c69d;"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Type" class="form-label" style="color:#74c69d;"></label>
+                <select asp-for="Type" class="form-select">
+                    <option value="0">Income</option>
+                    <option value="1">Expense</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn" style="background:#74c69d; color:#05150d; font-weight:600;">Save</button>
+            <a asp-action="Index" class="btn btn-link" style="color:#74c69d;">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
